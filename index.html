@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Consumo de Água</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <main>
+    <h1>Calculadora de Consumo de Água</h1>
+    <p class="sub">Informe as leituras do hidrômetro para ver quanto foi consumido.</p>
+
+    <form id="calc">
+      <label>Leitura anterior (m³)
+        <input type="number" id="anterior" step="0.001" required>
+      </label>
+      <label>Leitura atual (m³)
+        <input type="number" id="atual" step="0.001" required>
+      </label>
+      <label>Dias do período
+        <input type="number" id="dias" value="30" min="1" required>
+      </label>
+      <button type="submit">Calcular</button>
+    </form>
+
+    <section id="resultado" hidden>
+      <p>Consumo no período: <strong id="m3"></strong></p>
+      <p>Média por dia: <strong id="litrosDia"></strong></p>
+    </section>
+  </main>
+
+  <script>
+    // Calcula o consumo a partir de duas leituras do hidrômetro.
+    // 1 m³ = 1000 litros.
+    document.getElementById('calc').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const anterior = Number(document.getElementById('anterior').value);
+      const atual = Number(document.getElementById('atual').value);
+      const dias = Number(document.getElementById('dias').value);
+
+      const consumoM3 = atual - anterior;
+      const litrosPorDia = (consumoM3 * 1000) / dias;
+
+      document.getElementById('m3').textContent = consumoM3.toFixed(3) + ' m³';
+      document.getElementById('litrosDia').textContent = litrosPorDia.toFixed(0) + ' litros';
+      document.getElementById('resultado').hidden = false;
+    });
+  </script>
+</body>
+</html>
